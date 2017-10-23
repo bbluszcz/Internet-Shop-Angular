@@ -1,0 +1,92 @@
+<div class="well fixed">
+  <p>Total price:
+    <strong>{{ summaryTotal() | currency : 'PLN' : true }}</strong>
+  </p>
+  <p>
+    <button (click)="clearCart()" class="btn btn-danger btn-block">
+      <span class="glyphicon glyphicon-trash"></span>
+      Clear Cart
+    </button>
+  </p>
+
+  <!--
+    na górze jest funkcja sumująca cenę dla wszystkich rozmiarów w ramach jednego produktu
+  -->
+
+</div>
+
+<div class="container">
+
+  <div class="well" *ngFor="let product of products">
+
+    <!-- na górze jest pętla po wszystkich produktach -->
+
+    <div class="col-xs-2">
+      <img class="img-thumbnail img-responsive" [src]="product.image">
+    </div>
+
+    <div class="col-xs-10">
+        <p>ID: <strong>{{product.id}}</strong></p>
+        <p>Name: <strong>{{product.name}}</strong></p>
+        <p>Price:
+          <strong>
+            {{ minMaxPrice(product).min | currency : 'PLN' : true }}
+            -
+            {{ minMaxPrice(product).max | currency : 'PLN' : true }}
+          </strong>
+          <!--
+            funckja minMaxPrice pobiera produkt i zwraca (w formie JOSN, mogę się odwołać do zwróconych właśiwości poprzez kropkę) min cenę i max cenę dla produktu
+          -->
+        </p>
+        <p>
+          Summary:
+          <strong>{{ summary(product) | currency : 'PLN' : true }}</strong>
+
+          <!--
+            na górze jest funkcja sumująca cenę dla wszystkich rozmiarów w ramach jednego produktu
+          -->
+
+        </p>
+    </div>
+
+    <button class="btn btn-info pull-right" (click)="product.more = !product.more">Show sizes</button>
+
+    <!--
+      funkcja click ustawia more na true / false i pokazuje element div z rozmiarami lub nie
+    -->
+
+    <div class="clearfix"></div>
+
+    <div *ngIf="!!product.more">
+
+      <div class="col-xs-4" *ngFor="let size of product.sizes">
+
+        <div class="well">
+
+          <!-- powyej jest pętla po wszystkich rozmiarach w ramach jednego produktu -->
+
+          <p>Size: <strong>{{size.size}}</strong></p>
+          <p>
+            Small Price:
+            <strong>{{size.price | currency : 'PLN' : true }}</strong>
+            x
+            {{size.quantity || 0}}
+            =
+            <strong>{{ size.price * size.quantity | currency : 'PLN' : true }}</strong>
+          </p>
+          <p>
+            Quantity:
+            <input [(ngModel)]="size.quantity" class="form-control" min="0" step="1" max="50" type="number">
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="clearfix"></div>
+
+  </div>
+
+</div>

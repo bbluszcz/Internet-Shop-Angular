@@ -1,0 +1,16 @@
+img {
+    height: 100px;
+    margin-bottom: 10px;
+    min-width: 100px;
+  }
+  
+  .well .well {
+    margin: 15px 0px 15px 0px;
+    background-color: bisque;
+  }
+  
+  .fixed {
+    position: fixed;
+    top: 20px;
+    z-index: 999;
+  }
